@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Notifications\Messages\MailMessage;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +21,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        VerifyEmail::toMailUsing(function (object $notifiable, string $url) {
+            return(new MailMessage())->subject("تایید ایمیل")->line("دکمه پایین کلیک کنید تا ایمیل تایید شود")->action("تایید آدرس ایمیل", $url);
+        });
     }
 }
